@@ -1,0 +1,26 @@
+# Local network credentials
+/app/network_config.h
+
+# Keil build outputs and per-user state
+/mdk/Objects/
+/mdk/Listings/
+/mdk/DebugConfig/
+/mdk/build.log
+*.log
+*.uvoptx
+*.o
+*.d
+*.crf
+*.axf
+*.hex
+*.bin
+*.map
+*.lst
+*.lnp
+*.dep
+
+# Editor and operating-system state
+.vscode/*.log
+.DS_Store
+Thumbs.db
+

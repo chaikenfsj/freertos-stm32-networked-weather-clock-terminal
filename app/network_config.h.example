@@ -1,0 +1,13 @@
+#ifndef __NETWORK_CONFIG_H
+#define __NETWORK_CONFIG_H
+
+/* Copy this file to network_config.h and fill in your own values. */
+#define WIFI_SSID "YOUR_WIFI_SSID"
+#define WIFI_PASSWORD "YOUR_WIFI_PASSWORD"
+
+/* Example provider: Seniverse Weather API. Replace the API key and location. */
+#define WEATHER_API_URI \
+    "https://api.seniverse.com/v3/weather/now.json?key=YOUR_API_KEY&location=hefei&language=en&unit=c"
+
+#endif /* __NETWORK_CONFIG_H */
+

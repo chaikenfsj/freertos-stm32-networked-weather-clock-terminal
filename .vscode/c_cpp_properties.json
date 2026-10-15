@@ -1,0 +1,30 @@
+{
+    "configurations": [
+        {
+            "name": "stm32",
+            "includePath": [
+                "${workspaceFolder}/app",
+                "${workspaceFolder}/driver",
+                "${workspaceFolder}/driver/mpu6050",
+                "${workspaceFolder}/driver/st7735",
+                "${workspaceFolder}/driver/esp-at",
+                "${workspaceFolder}/firmware/cmsis/core",
+                "${workspaceFolder}/firmware/cmsis/device",
+                "${workspaceFolder}/firmware/driver/inc"
+            ],
+            "defines": [
+                "USE_STDPERIPH_DRIVER",
+                "STM32F10X_MD"
+            ],
+            "compilerPath": "D:/DevEnv/10 2021.10/bin/arm-none-eabi-gcc.exe",
+            "compilerArgs": ["-mcpu=cortex-m3", "-mthumb"],
+            "intelliSenseMode": "windows-gcc-arm",
+            "cStandard": "c99",
+            "cppStandard": "c++11",
+            "browse": {
+                "limitSymbolsToIncludedHeaders": true
+            }
+        }
+    ],
+    "version": 4
+}
