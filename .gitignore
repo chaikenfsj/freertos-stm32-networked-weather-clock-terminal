@@ -5,9 +5,9 @@
 /mdk/Objects/
 /mdk/Listings/
 /mdk/DebugConfig/
-/mdk/build.log
 *.log
 *.uvoptx
+*.uvguix*
 *.o
 *.d
 *.crf
@@ -24,3 +24,22 @@
 .DS_Store
 Thumbs.db
 
+# The source drop also contains ports and examples for other FreeRTOS targets.
+# Keep only the kernel files referenced by the STM32F103 Keil project.
+/third_lib/FreeRTOS-Kernel/*
+!/third_lib/FreeRTOS-Kernel/LICENSE.md
+!/third_lib/FreeRTOS-Kernel/README.md
+!/third_lib/FreeRTOS-Kernel/tasks.c
+!/third_lib/FreeRTOS-Kernel/queue.c
+!/third_lib/FreeRTOS-Kernel/list.c
+!/third_lib/FreeRTOS-Kernel/include/
+!/third_lib/FreeRTOS-Kernel/include/**
+!/third_lib/FreeRTOS-Kernel/portable/
+/third_lib/FreeRTOS-Kernel/portable/*
+!/third_lib/FreeRTOS-Kernel/portable/RVDS/
+/third_lib/FreeRTOS-Kernel/portable/RVDS/*
+!/third_lib/FreeRTOS-Kernel/portable/RVDS/ARM_CM3/
+!/third_lib/FreeRTOS-Kernel/portable/RVDS/ARM_CM3/**
+!/third_lib/FreeRTOS-Kernel/portable/MemMang/
+/third_lib/FreeRTOS-Kernel/portable/MemMang/*
+!/third_lib/FreeRTOS-Kernel/portable/MemMang/heap_4.c

@@ -137,22 +137,47 @@ bool esp_at_send_data(const uint8_t *data, uint32_t length)
 
 bool esp_at_reset(void)
 {
-    // 复位esp32
-    if (!esp_at_send_command("AT+RESTORE", NULL, NULL, 1000))
+    /*
+     * AT+RESTORE restores factory settings and restarts the ESP32.  It is not
+     * a normal power-on handshake, and on this module it consumes most of the
+     * old one-second timeout.  Probe the AT port instead so a slightly slower
+     * ESP32 start-up does not make the whole application fail.
+     */
+    bool ready = false;
+    for (uint8_t retry = 0; retry < 10; retry++)
+    {
+        if (esp_at_send_command("AT", NULL, NULL, 500))
+        {
+            ready = true;
+            break;
+        }
+        delay_ms(200);
+    }
+    if (!ready)
     {
         return false;
     }
-    delay_ms(2000);
+
     // 关闭回显
     if (!esp_at_send_command("ATE0", NULL, NULL, 1000))
     {
         return false;
     }
+
+    // STM32只使用TX/RX两根信号线，关闭AT串口硬件流控
+    if (!esp_at_send_command("AT+UART_CUR=115200,8,1,0,0", NULL, NULL, 1000))
+    {
+        return false;
+    }
+
     // 关闭存储
     if (!esp_at_send_command("AT+SYSSTORE=0", NULL, NULL, 1000))
     {
         return false;
     }
+
+    // 调试阶段输出ESP-AT详细错误码，便于定位DNS/TLS/HTTP问题
+    (void)esp_at_send_command("AT+SYSMSG=4", NULL, NULL, 1000);
 
     return true;
 }
@@ -170,10 +195,19 @@ bool esp_at_wifi_init(void)
 bool esp_at_wifi_connect(const char *ssid, const char *pwd)
 {
     char cmd[128];
+    const char *rsp;
 
     if (ssid == NULL || pwd == NULL)
     {
         return false;
+    }
+
+    // STM32单独复位或重新烧录时，ESP32往往仍连着热点。
+    // 先查询连接状态，避免重复执行CWJAP造成数秒等待。
+    if (esp_at_send_command("AT+CWJAP?", &rsp, NULL, 500) &&
+        rsp != NULL && strstr(rsp, "+CWJAP:") != NULL)
+    {
+        return true;
     }
 
     // 连接wifi
@@ -228,12 +262,7 @@ bool esp_at_sntp_init(void)
         return false;
     }
 
-    // 查询sntp时间
-    if (!esp_at_send_command("AT+CIPSNTPTIME?", NULL, NULL, 1000))
-    {
-        return false;
-    }
-
+    // 配置命令已经启动SNTP同步；有效时间由esp_at_get_time轮询确认。
     return true;
 }
 
@@ -246,7 +275,7 @@ bool esp_at_get_time(uint32_t *timestamp)
     {
         return false;
     }
-    if (!esp_at_send_command("AT+SYSTIMESTAMP?", &rsp, &length, 1000))
+    if (!esp_at_send_command("AT+SYSTIMESTAMP?", &rsp, &length, 500))
     {
         return false;
     }
@@ -271,7 +300,8 @@ bool esp_at_get_time(uint32_t *timestamp)
         }
         value = value * 10 + digit;
     }
-    if (value == 0 || *sts != '\r' || sts[1] != '\n')
+    // 2020-01-01以前的时间视为尚未完成SNTP同步，避免显示1970或00:00。
+    if (value < 1577836800UL || *sts != '\r' || sts[1] != '\n')
     {
         return false;
     }

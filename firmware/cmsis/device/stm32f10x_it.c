@@ -104,6 +104,7 @@ void UsageFault_Handler(void)
   * @param  None
   * @retval None
   */
+#ifndef USE_FREERTOS
 void SVC_Handler(void)
 {
 }
@@ -134,6 +135,7 @@ void PendSV_Handler(void)
 void SysTick_Handler(void)
 {
 }
+#endif /* USE_FREERTOS */
 
 /******************************************************************************/
 /*                 STM32F10x Peripherals Interrupt Handlers                   */

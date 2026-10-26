@@ -1,13 +1,11 @@
-#ifndef __NETWORK_CONFIG_H
-#define __NETWORK_CONFIG_H
+#ifndef NETWORK_CONFIG_H
+#define NETWORK_CONFIG_H
 
-/* Copy this file to network_config.h and fill in your own values. */
-#define WIFI_SSID "YOUR_WIFI_SSID"
-#define WIFI_PASSWORD "YOUR_WIFI_PASSWORD"
+/* Copy this file to app/network_config.h and fill in local values. */
+#define WIFI_SSID       "YOUR_WIFI_SSID"
+#define WIFI_PASSWORD   "YOUR_WIFI_PASSWORD"
 
-/* Example provider: Seniverse Weather API. Replace the API key and location. */
-#define WEATHER_API_URI \
-    "https://api.seniverse.com/v3/weather/now.json?key=YOUR_API_KEY&location=hefei&language=en&unit=c"
+/* Open-Meteo does not require an API key for this request. */
+#define WEATHER_API_URI "https://api.open-meteo.com/v1/forecast?latitude=23.1291&longitude=113.2644&current=temperature_2m%2Cweather_code&timezone=Asia%2FShanghai"
 
-#endif /* __NETWORK_CONFIG_H */
-
+#endif /* NETWORK_CONFIG_H */

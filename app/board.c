@@ -3,6 +3,10 @@
 
 void board_lowlevel_init(void)
 {
+    /* FreeRTOS Cortex-M port requires all four implemented bits to be used as
+       pre-emption priority bits (no sub-priority bits). */
+    NVIC_PriorityGroupConfig(NVIC_PriorityGroup_4);
+
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC, ENABLE);

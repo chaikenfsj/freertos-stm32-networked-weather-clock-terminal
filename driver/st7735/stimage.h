@@ -19,6 +19,7 @@ extern const st_image_t icon_weather_qing;
 extern const st_image_t icon_weather_xue;
 extern const st_image_t icon_weather_yin;
 extern const st_image_t icon_weather_yu;
+extern const st_image_t icon_weather_mascot;
 
 
 #endif /* __ST_IMAGE_H__ */
