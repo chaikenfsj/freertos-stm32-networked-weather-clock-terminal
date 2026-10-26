@@ -1,4 +1,4 @@
-# STM32F103C8T6 FreeRTOS 联网天气时钟终端
+# 基于 FreeRTOS 的 STM32 联网天气时钟终端
 
 这是一个基于 STM32F103C8T6 和 FreeRTOS 的联网天气时钟终端。STM32 通过 ESP32 AT 模块接入 Wi-Fi，使用 SNTP 校准片内 RTC，定期请求 Open-Meteo 天气数据，并在 1.44 英寸 ST7735 RGB TFT 上显示日期、时间、天气图标、网络温度和本地温度。
 
